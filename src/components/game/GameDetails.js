@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { getSingleGame } from "../managers/GameManager"
+import { ReviewList } from "./ReviewList"
 
 export const GameDetails = () => {
     const [ game, setGame ] = useState([])
     const {gameId} = useParams()
+    let navigate = useNavigate()
 
     useEffect(() => {
         getSingleGame(gameId).then(data => setGame(data))
@@ -22,5 +24,9 @@ export const GameDetails = () => {
                     deleteGame(game.id)
                     .then(getGames().then(data => setGames(data)))}}>Delete</button> */}
                 <br></br>
+                <button onClick={() => navigate({ pathname: `/game/${game.id}/review `})}>Review Game</button>
+                <br></br>
+                <h4>All Reviews</h4>
+                <ReviewList gameId={gameId}/>
     </section>
 }
